@@ -1,26 +1,134 @@
 @import "tailwindcss";
 
+/**
+ * Theme Color System
+ * ------------------
+ * This defines a comprehensive set of CSS variables for theming the application.
+ * The structure uses semantic naming for clarity and maintainability.
+ * 
+ * There are two themes available:
+ * 1. Light theme - Applied when the 'light' class is on the HTML element
+ * 2. Dark theme - Applied when the 'dark' class is on the HTML element
+ */
+
+/* Base colors for the UI will be set dynamically by theme-provider.tsx */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base color palette - Light mode */
+  --primary: 59, 130, 246;   /* Blue */
+  --secondary: 99, 102, 241;  /* Indigo */
+  
+  /* Semantic UI colors - Light theme */
+  --background: 249, 250, 251;     /* Gray 50 */
+  --foreground: 31, 41, 55;        /* Gray 800 */
+  --card: 255, 255, 255;           /* White */
+  --card-foreground: 31, 41, 55;   /* Gray 800 */
+  --popover: 255, 255, 255;        /* White */
+  --popover-foreground: 31, 41, 55; /* Gray 800 */
+  --muted: 243, 244, 246;          /* Gray 100 */
+  --muted-foreground: 107, 114, 128; /* Gray 500 */
+  --accent: 224, 242, 254;         /* Sky 100 */
+  --accent-foreground: 31, 41, 55; /* Gray 800 */
+  --border: 229, 231, 235;         /* Gray 200 */
+  --input: 229, 231, 235;          /* Gray 200 */
+  --ring: 59, 130, 246;            /* Blue */
+  
+  /* Status colors */
+  --success: 16, 185, 129;         /* Emerald 500 */
+  --warning: 245, 158, 11;         /* Amber 500 */
+  --error: 239, 68, 68;            /* Red 500 */
+  --info: 14, 165, 233;            /* Sky 500 */
+
+  /* Radius and shadows */
+  --radius: 0.5rem;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark Theme defaults - will be overridden by theme-provider.tsx */
+.dark {
+  /* Primary colors - Dark mode */
+  --primary: 96, 165, 250;    /* Blue 400 */
+  --secondary: 165, 180, 252;  /* Indigo 300 */
+  
+  /* Semantic UI colors - Dark theme */
+  --background: 15, 23, 42;        /* Slate 900 */
+  --foreground: 241, 245, 249;     /* Slate 100 */
+  --card: 30, 41, 59;              /* Slate 800 */
+  --card-foreground: 241, 245, 249; /* Slate 100 */
+  --popover: 30, 41, 59;           /* Slate 800 */
+  --popover-foreground: 241, 245, 249; /* Slate 100 */
+  --muted: 30, 41, 59;             /* Slate 800 */
+  --muted-foreground: 148, 163, 184; /* Slate 400 */
+  --accent: 30, 64, 175;           /* Blue 800 */
+  --accent-foreground: 241, 245, 249; /* Slate 100 */
+  --border: 51, 65, 85;            /* Slate 700 */
+  --input: 51, 65, 85;             /* Slate 700 */
+  --ring: 96, 165, 250;            /* Blue 400 */
+  
+  /* Status colors - Dark mode */
+  --success: 52, 211, 153;         /* Emerald 400 */
+  --warning: 251, 191, 36;         /* Amber 400 */
+  --error: 248, 113, 113;          /* Red 400 */
+  --info: 56, 189, 248;            /* Sky 400 */
 }
 
+/* System preference dark mode (as fallback) */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not(.light, .dark) {
+    --background: 15, 23, 42;        /* Slate 900 */
+    --foreground: 241, 245, 249;     /* Slate 100 */
+    --card: 30, 41, 59;              /* Slate 800 */
+    --card-foreground: 241, 245, 249; /* Slate 100 */
+    --popover: 30, 41, 59;           /* Slate 800 */
+    --popover-foreground: 241, 245, 249; /* Slate 100 */
+    --muted: 30, 41, 59;             /* Slate 800 */
+    --muted-foreground: 148, 163, 184; /* Slate 400 */
+    --accent: 30, 64, 175;           /* Blue 800 */
+    --accent-foreground: 241, 245, 249; /* Slate 100 */
+    --border: 51, 65, 85;            /* Slate 700 */
+    --input: 51, 65, 85;             /* Slate 700 */
+    --ring: 96, 165, 250;            /* Blue 400 */
+    --success: 52, 211, 153;         /* Emerald 400 */
+    --warning: 251, 191, 36;         /* Amber 400 */
+    --error: 248, 113, 113;          /* Red 400 */
+    --info: 56, 189, 248;            /* Sky 400 */
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  min-height: 100vh; /* Ensure background covers entire viewport */
+}
+
+/* Base transition for theme switching */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+}
+
+/* Force the theme variables to be applied to all elements */
+:root, .light, .dark, [data-theme] {
+  color-scheme: light dark;
+}
+
+/* Note: We're relying on Tailwind classes for component styling
+   The CSS below is only a fallback for any non-Tailwind components */
+nav, header, aside, .sidebar, .topnav, .mobilenav {
+  background-color: rgb(var(--card));
+  color: rgb(var(--foreground));
+  border-color: rgb(var(--border));
+}
+
+/* Ensure navigation links and items use the correct text color */
+nav a, header a, aside a, .sidebar a, .topnav a, .mobilenav a,
+.nav-item, .menu-item {
+  color: rgb(var(--foreground));
+}
+
+/* Code blocks and pre elements should use monospace font */
+code, pre, .code, .mono {
+  font-family: var(--font-mono), Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 }
